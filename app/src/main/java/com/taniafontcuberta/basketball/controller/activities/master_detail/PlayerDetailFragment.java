@@ -9,12 +9,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
+import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.model.Player;
+
+import java.util.List;
 
 /**
  * A fragment representing a single Player detail screen.
@@ -22,7 +26,7 @@ import com.taniafontcuberta.basketball.model.Player;
  * in two-pane mode (on tablets) or a {@link PlayerDetailActivity}
  * on handsets.
  */
-public class PlayerDetailFragment extends Fragment {
+public class PlayerDetailFragment extends Fragment implements PlayerCallback{
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -76,6 +80,17 @@ public class PlayerDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.player_detail, container, false);
 
+        /* Delete action */
+        Button delete = (Button) rootView.findViewById(R.id.deleteButton);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerManager.getInstance(v.getContext()).deletePlayer(PlayerDetailFragment.this, mItem.getId());
+                Intent intent = new Intent(v.getContext(), PlayerListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.player_detail)).setText(
@@ -92,5 +107,15 @@ public class PlayerDetailFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onSuccess(List<Player> playerList) {
+
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+
     }
 }

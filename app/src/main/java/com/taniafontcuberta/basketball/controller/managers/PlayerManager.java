@@ -129,5 +129,30 @@ public class PlayerManager {
         });
     }
 
+    /* DELETE - DELETE PLAYER */
+    public synchronized void deletePlayer(final PlayerCallback playerCallback, Long id) {
+        Call <Void> call = playerService.deletePlayer(UserLoginManager.getInstance(context).getBearerToken() ,id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    Log.e("Player->", "Deleted: OK");
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
 
 }

@@ -59,6 +59,15 @@
         android:textIsSelectable="true"
         tools:context="com.example.basketball.controller.activities.master_detail.PlayerDetailFragment" />
 
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="ELIMINAR JUGADOR"/>
 
 
 </LinearLayout>
