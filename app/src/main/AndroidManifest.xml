@@ -75,6 +75,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerDetailActivity" />
         </activity>
+
+        <activity
+            android:name=".controller.activities.login.RegisterActivity"
+            android:label="Registrar usuario"
+            android:parentActivityName=".controller.activities.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taniafontcuberta.basketball.controller.activities.login.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>
