@@ -11,8 +11,7 @@ public class Player {
     Integer rebounds;
     String fieldPosition;
     String birthdate;
-
-
+    Team team;
 
     public Player() {
     }
@@ -62,6 +61,10 @@ public class Player {
     public String getBirthdate() { return birthdate; }
 
     public void setBirthdate(String birthdate) { this.birthdate = birthdate; }
+
+    public Team getTeam() { return team; }
+
+    public void setTeam(Team team) { this.team = team; }
 
     @Override
     public boolean equals(Object o) {

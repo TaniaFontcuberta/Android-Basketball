@@ -83,7 +83,6 @@ public class AddEditTeamActivity extends AppCompatActivity implements TeamCallba
                 addButton.setText("Edit Team");
 
                 id = extras.getString("id");
-                Log.e("Tania - idTeam", id);
                 nameView.setText(TeamManager.getInstance(this).getTeam(id).getName());
                 localityView.setText(TeamManager.getInstance(this).getTeam(id).getLocality());
         }

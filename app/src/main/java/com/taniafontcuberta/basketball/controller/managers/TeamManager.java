@@ -43,7 +43,7 @@ public class TeamManager {
         return ourInstance;
     }
 
-    /* GET - GET ALL PLAYER */
+    /* GET - GET ALL TEAMS */
 
     public synchronized void getAllTeams(final TeamCallback teamCallback) {
         Call<List<Team>> call = teamService.getAllTeams(UserLoginManager.getInstance(context).getBearerToken());
@@ -91,7 +91,7 @@ public class TeamManager {
                 int code = response.code();
 
                 if (code == 200 || code == 201) {
-                    Log.e("Team->", Integer.toString(code));
+                    Log.e("Team->","updateTeam: " + Integer.toString(code));
 
                 } else {
                     teamCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -116,7 +116,7 @@ public class TeamManager {
                 int code = response.code();
 
                 if (code == 200 || code == 201) {
-                    Log.e("Team->", Integer.toString(code));
+                    Log.e("Team->","updateTeam: " + Integer.toString(code));
 
                 } else {
                     teamCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -125,7 +125,7 @@ public class TeamManager {
 
             @Override
             public void onFailure(Call<Team> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("Team->", "updateTeam: " + t);
 
                 teamCallback.onFailure(t);
             }

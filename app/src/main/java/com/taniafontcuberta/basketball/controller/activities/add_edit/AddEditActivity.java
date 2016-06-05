@@ -25,14 +25,17 @@ import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerListActivity;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
+import com.taniafontcuberta.basketball.controller.managers.TeamCallback;
+import com.taniafontcuberta.basketball.controller.managers.TeamManager;
 import com.taniafontcuberta.basketball.model.Player;
+import com.taniafontcuberta.basketball.model.Team;
 
 import java.util.List;
 
 /**
  * A Add screen that offers Add via username/basketsView.
  */
-public class AddEditActivity extends AppCompatActivity implements PlayerCallback {
+public class AddEditActivity extends AppCompatActivity implements PlayerCallback, TeamCallback {
 
     // UI references.
     private EditText nameView;
@@ -43,6 +46,7 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
     private Spinner teamView;
     private DatePicker birthdateView;
     private Player player;
+    private List<Team> teams;
     private Bundle extras;
 
     // ATTR
@@ -75,6 +79,7 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
         setContentView(R.layout.activity_add_edit);
 
         /* GET ALL TEAMS */
+        TeamManager.getInstance(this.getApplicationContext()).getAllTeams(AddEditActivity.this);
 
         player = new Player();
 
@@ -95,6 +100,7 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
         assistsView = (EditText) findViewById(R.id.assists);
         fieldPositionView = (Spinner) findViewById(R.id.fieldPosition);
         birthdateView = (DatePicker) findViewById(R.id.birthdate);
+        teamView = (Spinner) findViewById(R.id.teamSpinner);
 
 
         // FieldPosition Spinner
@@ -116,7 +122,6 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
         });
 
         Button addButton = (Button) findViewById(R.id.add_edit_button);
-        Log.e("Tania - extras", extras.getString("type"));
 
         switch (extras.getString("type")) {
             case "add":
@@ -181,7 +186,6 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
         basketsView.setError(null);
         reboundsView.setError(null);
         assistsView.setError(null);
-        //    fieldPositionView.setError(null);
 
         // Store values at the  Add attempt.
         name = nameView.getText().toString();
@@ -284,6 +288,31 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
     @Override
     public void onSucces() {
 
+    }
+
+    @Override
+    public void onSuccessTeam(List<Team> teamList) {
+        teams = teamList;
+        adapterTeams = new ArrayAdapter(AddEditActivity.this, android.R.layout.simple_spinner_item, teams);
+        teamView.setAdapter(adapterTeams);
+
+        if (extras.getString("type").equals("edit")) {
+            Team team = PlayerManager.getInstance(this).getPlayer(id).getTeam();
+            teamView.setSelection(adapterTeams.getPosition(team));
+        }
+
+        /* ADD SELECTED TEAM TO PLAYER */
+        teamView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View view, int position, long id) {
+                player.setTeam(teams.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override

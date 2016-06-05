@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
+import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditTeamActivity;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.model.Player;
@@ -26,7 +27,7 @@ import java.util.List;
  * in two-pane mode (on tablets) or a {@link PlayerDetailActivity}
  * on handsets.
  */
-public class PlayerDetailFragment extends Fragment implements PlayerCallback{
+public class PlayerDetailFragment extends Fragment implements PlayerCallback {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -56,12 +57,11 @@ public class PlayerDetailFragment extends Fragment implements PlayerCallback{
             String id = getArguments().getString(ARG_ITEM_ID);
             mItem = PlayerManager.getInstance(this.getContext()).getPlayer(id);
             assert mItem != null;
-            Activity activity = this.getActivity();
+            final Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getName());
             }
-
             FloatingActionButton edit = (FloatingActionButton) activity.findViewById(R.id.edit);
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,25 +72,34 @@ public class PlayerDetailFragment extends Fragment implements PlayerCallback{
                     startActivityForResult(intent, 0);
                 }
             });
+            FloatingActionButton editTeam = (FloatingActionButton) activity.findViewById(R.id.edit);
+            editTeam.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Intent intent = new Intent(view.getContext(), AddEditTeamActivity.class); // intent en fragments
+                    intent.putExtra("id", mItem.getTeam().getId().toString());
+                    intent.putExtra("type", "edit");
+                    startActivityForResult(intent, 0);
+                    return false;
+                }
+            });
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.player_detail, container, false);
-
-        /* Delete action */
         Button delete = (Button) rootView.findViewById(R.id.deleteButton);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PlayerManager.getInstance(v.getContext()).deletePlayer(PlayerDetailFragment.this, mItem.getId());
-                Intent intent = new Intent(v.getContext(), PlayerListActivity.class);
+                Intent intent = new Intent(v.getContext(), Player.class);
                 startActivity(intent);
             }
         });
-
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.player_detail)).setText(
@@ -103,7 +112,8 @@ public class PlayerDetailFragment extends Fragment implements PlayerCallback{
                     "Field position: " + mItem.getFieldPosition().toString());
             ((TextView) rootView.findViewById(R.id.player_detailBirthdate)).setText(
                     "Birthdate: " + mItem.getBirthdate());
-
+            ((TextView) rootView.findViewById(R.id.player_detailTeam)).setText(
+                    "Team: " + mItem.getTeam());
         }
 
         return rootView;
