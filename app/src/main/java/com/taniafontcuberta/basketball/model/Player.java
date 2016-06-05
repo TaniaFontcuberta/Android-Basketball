@@ -7,6 +7,12 @@ public class Player {
     Long id;
     String name;
     Integer baskets;
+    Integer assists;
+    Integer rebounds;
+    String fieldPosition;
+    String birthdate;
+
+
 
     public Player() {
     }
@@ -41,6 +47,22 @@ public class Player {
         this.baskets = baskets;
     }
 
+    public Integer getAssists() { return assists; }
+
+    public void setAssists(Integer assists) { this.assists = assists; }
+
+    public Integer getRebounds() { return rebounds; }
+
+    public void setRebounds(Integer rebounds) { this.rebounds = rebounds; }
+
+    public String getFieldPosition() { return fieldPosition; }
+
+    public void setFieldPosition(String fieldPosition) { this.fieldPosition = fieldPosition; }
+
+    public String getBirthdate() { return birthdate; }
+
+    public void setBirthdate(String birthdate) { this.birthdate = birthdate; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,17 +70,29 @@ public class Player {
 
         Player player = (Player) o;
 
-        if (!id.equals(player.id)) return false;
-        if (!name.equals(player.name)) return false;
-        return !(baskets != null ? !baskets.equals(player.baskets) : player.baskets != null);
+        if (id != null ? !id.equals(player.id) : player.id != null) return false;
+        if (name != null ? !name.equals(player.name) : player.name != null) return false;
+        if (baskets != null ? !baskets.equals(player.baskets) : player.baskets != null)
+            return false;
+        if (assists != null ? !assists.equals(player.assists) : player.assists != null)
+            return false;
+        if (rebounds != null ? !rebounds.equals(player.rebounds) : player.rebounds != null)
+            return false;
+        if (fieldPosition != null ? !fieldPosition.equals(player.fieldPosition) : player.fieldPosition != null)
+            return false;
+        return birthdate != null ? birthdate.equals(player.birthdate) : player.birthdate == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (baskets != null ? baskets.hashCode() : 0);
+        result = 31 * result + (assists != null ? assists.hashCode() : 0);
+        result = 31 * result + (rebounds != null ? rebounds.hashCode() : 0);
+        result = 31 * result + (fieldPosition != null ? fieldPosition.hashCode() : 0);
+        result = 31 * result + (birthdate != null ? birthdate.hashCode() : 0);
         return result;
     }
 
@@ -68,6 +102,10 @@ public class Player {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", baskets=" + baskets +
+                ", assists=" + assists +
+                ", rebounds=" + rebounds +
+                ", fieldPosition='" + fieldPosition + '\'' +
+                ", birthdate='" + birthdate + '\'' +
                 '}';
     }
 }

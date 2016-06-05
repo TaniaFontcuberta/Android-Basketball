@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
+import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
 import com.taniafontcuberta.basketball.controller.activities.login.LoginActivity;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
@@ -57,12 +58,13 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(view.getContext(),AddEditActivity.class);
+                intent.putExtra("type","add");
+                startActivityForResult(intent, 0);
             }
         });
 

@@ -37,6 +37,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerListActivity" />
         </activity>
+        <activity
+            android:name=".controller.activities.add_edit.AddEditActivity"
+            android:label="Añadir jugador"
+            android:parentActivityName=".controller.activities.master_detail.PlayerListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerListActivity" />
+
+        </activity>
     </application>
 
 </manifest>

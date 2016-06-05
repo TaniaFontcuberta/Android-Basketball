@@ -17,4 +17,13 @@
     <string name="title_player_list">Players</string>
     <string name="title_player_detail">Player Detail</string>
     <string name="main_button">View players List</string>
+
+    <string-array name="posiciones">
+        <item>PointGuard</item>
+        <item>ShootingGuard</item>
+        <item>SmallForward</item>
+        <item>PowerForward</item>
+        <item>Center</item>
+    </string-array>
+
 </resources>

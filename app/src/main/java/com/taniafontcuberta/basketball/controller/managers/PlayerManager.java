@@ -77,4 +77,57 @@ public class PlayerManager {
 
         return null;
     }
+
+     /* POST - CREATE PLAYER */
+
+    public synchronized void createPlayer(final PlayerCallback playerCallback,Player player) {
+        Call<Player> call = playerService.createPlayer(UserLoginManager.getInstance(context).getBearerToken(), player);
+        call.enqueue(new Callback<Player>() {
+            @Override
+            public void onResponse(Call<Player> call, Response<Player> response) {
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    Log.e("Player->", "Create: OK" + 100);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Player> call, Throwable t) {
+                Log.e("PlayerManager->", "Create: ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
+    /* PUT - UPDATE PLAYER */
+    public synchronized void updatePlayer(final PlayerCallback playerCallback, Player player) {
+        Call <Player> call = playerService.updatePlayer(UserLoginManager.getInstance(context).getBearerToken() ,player);
+        call.enqueue(new Callback<Player>() {
+            @Override
+            public void onResponse(Call<Player> call, Response<Player> response) {
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    Log.e("Player->", "Update: OK" + 100);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Player> call, Throwable t) {
+                Log.e("PlayerManager->", "Update: ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
+
 }
