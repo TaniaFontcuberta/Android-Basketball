@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Basketball</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_log_in">Log in</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_username_or_password">Username or password are  incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="user_token_label">UserToken</string>
+    <string name="access_token_label">access_token:</string>
+    <string name="token_type_label">token_type:</string>
+    <string name="grant_type_label">grant_type:</string>
+    <string name="scope_label">scope:</string>
+    <string name="refresh_token_label">refresh_token:</string>
+    <string name="expires_in_label">expires_in:</string>
+    <string name="dummy">dummy text</string>
+    <string name="title_player_list">Players</string>
+    <string name="title_player_detail">Player Detail</string>
+    <string name="main_button">View players List</string>
+</resources>
