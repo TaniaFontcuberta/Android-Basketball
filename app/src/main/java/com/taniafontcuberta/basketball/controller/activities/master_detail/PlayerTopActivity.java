@@ -4,23 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
-import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
 import com.taniafontcuberta.basketball.controller.activities.login.LoginActivity;
-import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
+import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.model.Player;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class PlayerListActivity extends AppCompatActivity implements PlayerCallback {
+public class PlayerTopActivity extends AppCompatActivity implements PlayerCallback {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -42,11 +42,14 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
     private boolean mTwoPane;
     private RecyclerView recyclerView;
     private List<Player> players;
-
+    private EditText topName, topAttr2;
+    private Bundle typeSearch;
+    private Button filtrarButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player_list);
+        setContentView(R.layout.activity_top_list);
+        typeSearch = getIntent().getExtras();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,26 +61,6 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        FloatingActionButton add = (FloatingActionButton) findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),AddEditActivity.class);
-                intent.putExtra("type","add");
-                startActivityForResult(intent, 0);
-            }
-        });
-
-        FloatingActionButton searchName = (FloatingActionButton) findViewById(R.id.topName);
-        searchName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
-                intent.putExtra("id", "name");
-                startActivityForResult(intent, 0);
-            }
-        });
-
         recyclerView = (RecyclerView) findViewById(R.id.player_list);
         assert recyclerView != null;
 
@@ -88,12 +71,38 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+        topName = (EditText) findViewById(R.id.topNameSearch);
+        filtrarButton = (Button) findViewById(R.id.searchButton);
+
+        typeSearch = getIntent().getExtras();
+        Log.d("Tania - Type antes", String.valueOf(filtrarButton.getInputType()));
+        switch (typeSearch.getString("id")){
+            case "name":
+                Log.d("Tania - name", typeSearch.getString("id"));
+                filtrarButton.setInputType(InputType.TYPE_CLASS_NUMBER);
+                filtrarButton.setHint("Filtrar por nombre");
+                break;
+
+        }
+
+        filtrarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (typeSearch.getString("id")){
+                    case "name":
+                        PlayerManager.getInstance(getApplicationContext()).getPlayerByName(PlayerTopActivity.this, topName.getText().toString());
+                        break;
+
+                }
+
+            }
+        });
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        PlayerManager.getInstance(this.getApplicationContext()).getAllPlayers(PlayerListActivity.this);
+        PlayerManager.getInstance(this).getAllPlayers(PlayerTopActivity.this);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -109,7 +118,7 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
 
     @Override
     public void onFailure(Throwable t) {
-        Intent i = new Intent(PlayerListActivity.this, LoginActivity.class);
+        Intent i = new Intent(PlayerTopActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }

@@ -19,6 +19,31 @@
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/topNameSearch"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="25dp"
+                android:singleLine="true"/>
+
+            <Button
+                android:id="@+id/searchButton"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filtrar"
+                android:textStyle="bold"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
@@ -29,24 +54,6 @@
 
         <include layout="@layout/player_list" />
     </FrameLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="250dp"
-        android:layout_marginBottom="10dp"
-        android:src="@mipmap/add" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/topName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginRight="250dp"
-        android:layout_marginBottom="10dp"
-        android:src="@mipmap/head" />
 
 
 </android.support.design.widget.CoordinatorLayout>

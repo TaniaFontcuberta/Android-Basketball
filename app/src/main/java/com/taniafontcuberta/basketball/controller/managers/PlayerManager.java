@@ -155,4 +155,33 @@ public class PlayerManager {
     }
 
 
+    /* GET - TOP PLAYERS BY NAME */
+
+    public synchronized void getPlayerByName(final PlayerCallback playerCallback,String name) {
+        Call<List<Player>> call = playerService.getPlayerByName(UserLoginManager.getInstance(context).getBearerToken(), name);
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                players = response.body();
+
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    playerCallback.onSuccess(players);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e("PlayerManager->", "getPlayersByName: ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
+
 }

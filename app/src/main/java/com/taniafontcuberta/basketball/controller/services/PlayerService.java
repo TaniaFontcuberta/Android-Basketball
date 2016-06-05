@@ -37,4 +37,11 @@ public interface PlayerService {
             @Header("Authorization") String Authorization,
             @Path("id") Long id);
 
+     /* FILTERS */
+
+    @GET("api/players/byName/{name}")
+    Call<List<Player>> getPlayerByName(
+
+            @Header("Authorization") String Authorization,
+            @Path("name") String name);
 }
