@@ -57,5 +57,6 @@ public interface PlayerService {
 
             @Header("Authorization") String Authorization,
             @Path("fechaNacimiento") String fechaNacimiento);
+            @Path("birthdate") String fechaNacimiento);
 
 }
