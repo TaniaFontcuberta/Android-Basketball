@@ -17,11 +17,8 @@ import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
+import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditTeamActivity;
 import com.taniafontcuberta.basketball.controller.activities.login.LoginActivity;
-import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerDetailActivity;
-import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerDetailFragment;
-import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerTopActivity;
-import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerTopBetweenActivity;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.model.Player;
@@ -70,6 +67,17 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
                 startActivityForResult(intent, 0);
             }
         });
+        FloatingActionButton addTeam = (FloatingActionButton) findViewById(R.id.add);
+        addTeam.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(v.getContext(),AddEditTeamActivity.class);
+                intent.putExtra("type","add");
+                startActivityForResult(intent, 0);
+                return false;
+            }
+
+        });
 
         FloatingActionButton searchName = (FloatingActionButton) findViewById(R.id.topName);
         searchName.setOnClickListener(new View.OnClickListener() {
@@ -89,8 +97,8 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
                 startActivityForResult(intent, 0);
             }
         });
-        FloatingActionButton topFechaNacimiento = (FloatingActionButton) findViewById(R.id.topFechaNacimiento);
-        topFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton topBirthDate = (FloatingActionButton) findViewById(R.id.topFechaNacimiento);
+        topBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
@@ -98,9 +106,10 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
                 startActivityForResult(intent, 0);
             }
         });
-        topFechaNacimiento.setOnLongClickListener(new View.OnLongClickListener() {
-                                                      @Override
-                                                      public boolean onLongClick(View view) {
+
+        topBirthDate.setOnLongClickListener(new View.OnLongClickListener() {
+          @Override
+          public boolean onLongClick(View view) {
               Intent intent = new Intent(view.getContext(),PlayerTopBetweenActivity.class);
               intent.putExtra("id", "birthdate2");
               startActivityForResult(intent, 0);
