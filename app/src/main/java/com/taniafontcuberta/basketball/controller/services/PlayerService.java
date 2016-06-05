@@ -56,7 +56,13 @@ public interface PlayerService {
     Call<List<Player>> getPlayersByBirthdate(
 
             @Header("Authorization") String Authorization,
-            @Path("fechaNacimiento") String fechaNacimiento);
             @Path("birthdate") String fechaNacimiento);
 
+
+    @GET("api/players/topBirthdateBetween/{birthdate}/{birthdate2}")
+    Call<List<Player>> getPlayersByBirthdateBetween(
+
+            @Header("Authorization") String Authorization,
+            @Path("birthdate") String birthdate,
+            @Path("birthdate2") String birthdate2);
 }

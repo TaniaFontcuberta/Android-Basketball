@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +18,10 @@ import android.widget.TextView;
 import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.add_edit.AddEditActivity;
 import com.taniafontcuberta.basketball.controller.activities.login.LoginActivity;
+import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerDetailActivity;
+import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerDetailFragment;
+import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerTopActivity;
+import com.taniafontcuberta.basketball.controller.activities.master_detail.PlayerTopBetweenActivity;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
 import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.model.Player;
@@ -72,12 +75,11 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
         searchName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), PlayerTopActivity.class);
+                Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
                 intent.putExtra("id", "name");
                 startActivityForResult(intent, 0);
             }
         });
-
         FloatingActionButton topBaskets = (FloatingActionButton) findViewById(R.id.topBaskets);
         topBaskets.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +89,6 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
                 startActivityForResult(intent, 0);
             }
         });
-
         FloatingActionButton topFechaNacimiento = (FloatingActionButton) findViewById(R.id.topFechaNacimiento);
         topFechaNacimiento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +98,18 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
                 startActivityForResult(intent, 0);
             }
         });
+        topFechaNacimiento.setOnLongClickListener(new View.OnLongClickListener() {
+                                                      @Override
+                                                      public boolean onLongClick(View view) {
+              Intent intent = new Intent(view.getContext(),PlayerTopBetweenActivity.class);
+              intent.putExtra("id", "birthdate2");
+              startActivityForResult(intent, 0);
+              return false;
+          }
+      }
+
+        );
+
 
         recyclerView = (RecyclerView) findViewById(R.id.player_list);
         assert recyclerView != null;

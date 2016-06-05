@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class PlayerTopActivity extends AppCompatActivity implements PlayerCallback {
+public class PlayerTopBetweenActivity extends AppCompatActivity implements PlayerCallback {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -48,7 +47,7 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top_list);
+        setContentView(R.layout.activity_topbetween_list);
         typeSearch = getIntent().getExtras();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,43 +71,19 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
             mTwoPane = true;
         }
         topAttr = (EditText) findViewById(R.id.topAttr);
+        topAttr2 = (EditText) findViewById(R.id.topAttr2);
+
         filtrarButton = (Button) findViewById(R.id.searchButton);
-
-        typeSearch = getIntent().getExtras();
-
-        switch (typeSearch.getString("id")){
-            case "name":
-                filtrarButton.setInputType(InputType.TYPE_CLASS_NUMBER);
-                filtrarButton.setHint("Filter by name");
-                setTitle("Filter by name");
-                break;
-            case "baskets":
-                filtrarButton.setHint("Filter by baskets");
-                setTitle("Filter by baskets");
-                filtrarButton.setInputType(1);
-                break;
-            case "birthdate":
-                filtrarButton.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
-                filtrarButton.setHint("Filter by birthdate");
-                setTitle("Filter by birthdate");
-                break;
-        }
-
         filtrarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (typeSearch.getString("id")){
-                    case "name":
-                        PlayerManager.getInstance(getApplicationContext()).getPlayerByName(PlayerTopActivity.this, topAttr.getText().toString());
-                        break;
-                    case "baskets":
-                        PlayerManager.getInstance(getApplicationContext()).getPlayersByBaskets(PlayerTopActivity.this, Integer.parseInt(topAttr.getText().toString()));
-                        break;
-                    case "birthdate":
-                        PlayerManager.getInstance(getApplicationContext()).getPlayersByBirthdate(PlayerTopActivity.this, topAttr.getText().toString());
-                        break;
-                }
 
+                if (topAttr2.getText().toString().equals("")) {
+                    PlayerManager.getInstance(getApplicationContext()).getPlayersByBirthdate(PlayerTopBetweenActivity.this, topAttr.getText().toString());
+                } else {
+                    PlayerManager.getInstance(getApplicationContext()).getPlayersByBirthdateBetween(PlayerTopBetweenActivity.this, topAttr.getText().toString(), topAttr2.getText().toString());
+
+                }
             }
         });
     }
@@ -116,7 +91,7 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        PlayerManager.getInstance(this).getAllPlayers(PlayerTopActivity.this);
+        PlayerManager.getInstance(this).getAllPlayers(PlayerTopBetweenActivity.this);
 
         //    PlayerManager.getInstance(this.getApplicationContext()).getAllPlayers(PlayerTopActivity.this);
     }
@@ -139,7 +114,7 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
 
     @Override
     public void onFailure(Throwable t) {
-        Intent i = new Intent(PlayerTopActivity.this, LoginActivity.class);
+        Intent i = new Intent(PlayerTopBetweenActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }

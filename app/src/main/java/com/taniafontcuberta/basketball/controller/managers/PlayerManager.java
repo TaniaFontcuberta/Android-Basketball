@@ -92,7 +92,7 @@ public class PlayerManager {
 
                 if (code == 200 || code == 201) {
                     //playerCallback.onSuccess1(apuestas1x2);
-                    Log.e("Player->", "Realizada: OK" + 100);
+                    Log.e("Player->", "createPlayer: OK" + 100);
 
                 } else {
                     playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -101,7 +101,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "createPlayer: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -117,7 +117,7 @@ public class PlayerManager {
                 int code = response.code();
 
                 if (code == 200 || code == 201) {
-                    Log.e("Player->", "Realizada: OOK" + 100);
+                    Log.e("Player->", "updatePlayer: OOK" + 100);
 
                 } else {
                     playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -126,7 +126,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "updatePlayer: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -151,7 +151,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "deletePlayer: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -180,7 +180,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "getPlayerByName: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -208,7 +208,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "getPlayersByBaskets : " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -218,7 +218,7 @@ public class PlayerManager {
 
     /* GET - TOP PLAYERS BY X DATEBIRTH */
 
-    public synchronized void getPlayersByBirthdate(final PlayerCallback playerCallback,String birthdate) {
+    public synchronized void getPlayersByBirthdate(final PlayerCallback playerCallback, String birthdate) {
         Call<List<Player>> call = playerService.getPlayersByBirthdate(UserLoginManager.getInstance(context).getBearerToken(), birthdate);
         call.enqueue(new Callback<List<Player>>() {
             @Override
@@ -237,11 +237,40 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+                Log.e("PlayerManager->", "getPlayersByBirthdate: " + t);
 
                 playerCallback.onFailure(t);
             }
         });
     }
+
+    /* GET - TOP PLAYERS BY DATEBIRTH BETWEEN X AND Y */
+
+    public synchronized void getPlayersByBirthdateBetween(final PlayerCallback playerCallback,String birthdate, String birthdate2) {
+        Call<List<Player>> call = playerService.getPlayersByBirthdateBetween(UserLoginManager.getInstance(context).getBearerToken(), birthdate, birthdate2);
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                players = response.body();
+
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    playerCallback.onSuccess(players);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e("PlayerManager->", "getPlayersByBirthdateBetween: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
 
 }

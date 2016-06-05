@@ -22,12 +22,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/topAttr"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:hint="Birthdate"
+                android:inputType="date"
+                android:maxLines="1"
+                android:layout_marginLeft="25dp"
+                android:singleLine="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/topAttr2"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="Birthdate"
+                android:inputType="date"
                 android:maxLines="1"
                 android:layout_marginLeft="25dp"
                 android:singleLine="true"/>
@@ -40,7 +55,8 @@
                 android:text="Filter"
                 android:textStyle="bold"
                 android:layout_marginLeft="25dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="right" />
+            </LinearLayout>
 
         </LinearLayout>
 
