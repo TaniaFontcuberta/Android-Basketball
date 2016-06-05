@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.taniafontcuberta.basketball.R;
 import com.taniafontcuberta.basketball.controller.activities.login.LoginActivity;
-import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.controller.managers.PlayerCallback;
+import com.taniafontcuberta.basketball.controller.managers.PlayerManager;
 import com.taniafontcuberta.basketball.model.Player;
 
 import java.util.List;
@@ -42,7 +42,7 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
     private boolean mTwoPane;
     private RecyclerView recyclerView;
     private List<Player> players;
-    private EditText topName, topAttr2;
+    private EditText topAttr, topAttr2;
     private Bundle typeSearch;
     private Button filtrarButton;
     @Override
@@ -71,18 +71,28 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-        topName = (EditText) findViewById(R.id.topNameSearch);
+        topAttr = (EditText) findViewById(R.id.topAttr);
         filtrarButton = (Button) findViewById(R.id.searchButton);
 
         typeSearch = getIntent().getExtras();
-        Log.d("Tania - Type antes", String.valueOf(filtrarButton.getInputType()));
+
         switch (typeSearch.getString("id")){
             case "name":
-                Log.d("Tania - name", typeSearch.getString("id"));
+                Log.d("Tania - Type", String.valueOf(filtrarButton.getInputType()));
                 filtrarButton.setInputType(InputType.TYPE_CLASS_NUMBER);
-                filtrarButton.setHint("Filtrar por nombre");
+                filtrarButton.setHint("Filter by name");
+                setTitle("Filter by name");
                 break;
-
+            case "baskets":
+                filtrarButton.setHint("Filter by baskets");
+                setTitle("Filter by baskets");
+                filtrarButton.setInputType(1);
+                break;
+            case "birthdate":
+                filtrarButton.setInputType(InputType.TYPE_DATETIME_VARIATION_DATE);
+                filtrarButton.setHint("Filter by birthdate");
+                setTitle("Filter by birthdate");
+                break;
         }
 
         filtrarButton.setOnClickListener(new View.OnClickListener() {
@@ -90,9 +100,14 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
             public void onClick(View view) {
                 switch (typeSearch.getString("id")){
                     case "name":
-                        PlayerManager.getInstance(getApplicationContext()).getPlayerByName(PlayerTopActivity.this, topName.getText().toString());
+                        PlayerManager.getInstance(getApplicationContext()).getPlayerByName(PlayerTopActivity.this, topAttr.getText().toString());
                         break;
-
+                    case "baskets":
+                        PlayerManager.getInstance(getApplicationContext()).getPlayersByBaskets(PlayerTopActivity.this, Integer.parseInt(topAttr.getText().toString()));
+                        break;
+                    case "birthdate":
+                        PlayerManager.getInstance(getApplicationContext()).getPlayersByBirthdate(PlayerTopActivity.this, topAttr.getText().toString());
+                        break;
                 }
 
             }
@@ -103,6 +118,8 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
     protected void onPostResume() {
         super.onPostResume();
         PlayerManager.getInstance(this).getAllPlayers(PlayerTopActivity.this);
+
+        //    PlayerManager.getInstance(this.getApplicationContext()).getAllPlayers(PlayerTopActivity.this);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -114,6 +131,11 @@ public class PlayerTopActivity extends AppCompatActivity implements PlayerCallba
     public void onSuccess(List<Player> playerList) {
         players = playerList;
         setupRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onSucces() {
+
     }
 
     @Override

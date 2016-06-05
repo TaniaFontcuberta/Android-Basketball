@@ -282,6 +282,11 @@ public class AddEditActivity extends AppCompatActivity implements PlayerCallback
     }
 
     @Override
+    public void onSucces() {
+
+    }
+
+    @Override
     public void onFailure(Throwable t) {
         Log.e("AddEditActivity->", "performAdd->onFailure ERROR " + t.getMessage());
 

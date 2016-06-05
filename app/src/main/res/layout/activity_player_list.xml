@@ -40,6 +40,15 @@
         android:src="@mipmap/add" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/topBaskets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="125dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/basket" />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/topName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +56,15 @@
         android:layout_marginRight="250dp"
         android:layout_marginBottom="10dp"
         android:src="@mipmap/head" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/topFechaNacimiento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/calendar" />
 
 
 </android.support.design.widget.CoordinatorLayout>

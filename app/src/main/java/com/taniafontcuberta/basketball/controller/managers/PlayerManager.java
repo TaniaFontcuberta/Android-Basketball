@@ -27,6 +27,7 @@ public class PlayerManager {
         retrofit = new Retrofit.Builder()
                 .baseUrl(CustomProperties.getInstance(context).get("app.baseUrl"))
                 .addConverterFactory(GsonConverterFactory.create())
+
                 .build();
 
         playerService = retrofit.create(PlayerService.class);
@@ -41,6 +42,8 @@ public class PlayerManager {
 
         return ourInstance;
     }
+
+    /* GET - GET ALL PLAYER */
 
     public synchronized void getAllPlayers(final PlayerCallback playerCallback) {
         Call<List<Player>> call = playerService.getAllPlayer(UserLoginManager.getInstance(context).getBearerToken());
@@ -78,7 +81,7 @@ public class PlayerManager {
         return null;
     }
 
-     /* POST - CREATE PLAYER */
+    /* POST - CREATE PLAYER */
 
     public synchronized void createPlayer(final PlayerCallback playerCallback,Player player) {
         Call<Player> call = playerService.createPlayer(UserLoginManager.getInstance(context).getBearerToken(), player);
@@ -88,7 +91,8 @@ public class PlayerManager {
                 int code = response.code();
 
                 if (code == 200 || code == 201) {
-                    Log.e("Player->", "Create: OK" + 100);
+                    //playerCallback.onSuccess1(apuestas1x2);
+                    Log.e("Player->", "Realizada: OK" + 100);
 
                 } else {
                     playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -97,7 +101,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-                Log.e("PlayerManager->", "Create: ERROR: " + t);
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -113,7 +117,7 @@ public class PlayerManager {
                 int code = response.code();
 
                 if (code == 200 || code == 201) {
-                    Log.e("Player->", "Update: OK" + 100);
+                    Log.e("Player->", "Realizada: OOK" + 100);
 
                 } else {
                     playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
@@ -122,7 +126,7 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-                Log.e("PlayerManager->", "Update: ERROR: " + t);
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
 
                 playerCallback.onFailure(t);
             }
@@ -154,10 +158,10 @@ public class PlayerManager {
         });
     }
 
-
     /* GET - TOP PLAYERS BY NAME */
 
     public synchronized void getPlayerByName(final PlayerCallback playerCallback,String name) {
+        // Call<List<Apuesta>> call = playerService.getAllPlayer(UserLoginManager.getInstance(context).getBearerToken());
         Call<List<Player>> call = playerService.getPlayerByName(UserLoginManager.getInstance(context).getBearerToken(), name);
         call.enqueue(new Callback<List<Player>>() {
             @Override
@@ -176,12 +180,68 @@ public class PlayerManager {
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                Log.e("PlayerManager->", "getPlayersByName: ERROR: " + t);
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
 
                 playerCallback.onFailure(t);
             }
         });
     }
 
+    /* GET - TOP PLAYERS BY X BASKETS */
+
+    public synchronized void getPlayersByBaskets(final PlayerCallback playerCallback,Integer baskets) {
+        Call<List<Player>> call = playerService.getPlayersByBaskets(UserLoginManager.getInstance(context).getBearerToken(), baskets);
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                players = response.body();
+
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    playerCallback.onSuccess(players);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
+
+
+    /* GET - TOP PLAYERS BY X DATEBIRTH */
+
+    public synchronized void getPlayersByBirthdate(final PlayerCallback playerCallback,String birthdate) {
+        Call<List<Player>> call = playerService.getPlayersByBirthdate(UserLoginManager.getInstance(context).getBearerToken(), birthdate);
+        call.enqueue(new Callback<List<Player>>() {
+            @Override
+            public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                players = response.body();
+
+                int code = response.code();
+
+                if (code == 200 || code == 201) {
+                    playerCallback.onSuccess(players);
+
+                } else {
+                    playerCallback.onFailure(new Throwable("ERROR" + code + ", " + response.raw().message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Player>> call, Throwable t) {
+                Log.e("PlayerManager->", "getAllPlayers()->ERROR: " + t);
+
+                playerCallback.onFailure(t);
+            }
+        });
+    }
 
 }

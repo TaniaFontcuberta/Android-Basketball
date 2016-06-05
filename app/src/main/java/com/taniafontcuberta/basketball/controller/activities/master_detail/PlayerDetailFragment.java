@@ -115,6 +115,11 @@ public class PlayerDetailFragment extends Fragment implements PlayerCallback{
     }
 
     @Override
+    public void onSucces() {
+
+    }
+
+    @Override
     public void onFailure(Throwable t) {
 
     }

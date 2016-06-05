@@ -72,8 +72,28 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
         searchName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
+                Intent intent = new Intent(view.getContext(), PlayerTopActivity.class);
                 intent.putExtra("id", "name");
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        FloatingActionButton topBaskets = (FloatingActionButton) findViewById(R.id.topBaskets);
+        topBaskets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
+                intent.putExtra("id", "baskets");
+                startActivityForResult(intent, 0);
+            }
+        });
+
+        FloatingActionButton topFechaNacimiento = (FloatingActionButton) findViewById(R.id.topFechaNacimiento);
+        topFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),PlayerTopActivity.class);
+                intent.putExtra("id", "birthdate");
                 startActivityForResult(intent, 0);
             }
         });
@@ -105,6 +125,11 @@ public class PlayerListActivity extends AppCompatActivity implements PlayerCallb
     public void onSuccess(List<Player> playerList) {
         players = playerList;
         setupRecyclerView(recyclerView);
+    }
+
+    @Override
+    public void onSucces() {
+
     }
 
     @Override
