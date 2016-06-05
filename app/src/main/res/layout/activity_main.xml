@@ -164,9 +164,12 @@
         android:id="@+id/main_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/user_token_label"
+        android:text="@string/main_button"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/colorAccent"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/user_token_label"
-        android:text="@string/main_button" />
+        android:padding="10dp"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
